@@ -96,7 +96,9 @@ istream &operator >> ( istream &is, BigInt &num ) {
 }
 
 BigInt operator + ( const BigInt &a, const BigInt &b ) {
-    cout << "+ " << a << " " << b << endl;
+#ifdef __DEBUG__
+    cerr << "+ " << a << " " << b << endl;
+#endif
     BigInt c;
 
     vector< int >::const_iterator 
@@ -126,7 +128,9 @@ BigInt operator + ( const BigInt &a, const BigInt &b ) {
 }
 
 BigInt operator - ( const BigInt &a, const BigInt &b ) {
-    cout << "- " << a << " " << b << endl;
+#ifdef __DEBUG__
+    cerr << "- " << a << " " << b << endl;
+#endif
     BigInt c;
 
     if ( a < b ) {
@@ -160,7 +164,9 @@ BigInt operator - ( const BigInt &a, const BigInt &b ) {
 }
 
 BigInt operator * ( const BigInt &a, const BigInt &b ) {
-    cout << "* " << a << " " << b << endl;
+#ifdef __DEBUG__
+    cerr << "* " << a << " " << b << endl;
+#endif
     BigInt c;
     c.data = vector< int >( a.data.size() * b.data.size() + 1, 0 );
 
@@ -186,7 +192,9 @@ BigInt operator * ( const BigInt &a, const BigInt &b ) {
 }
 
 BigInt operator / ( BigInt a, BigInt b ) {
-    cout << "/ " << a << " " << b << endl;
+#ifdef __DEBUG__
+    cerr << "/ " << a << " " << b << endl;
+#endif
     if ( a < b )
         return 0;
     if ( ! b.data.size() )
@@ -217,7 +225,9 @@ BigInt operator / ( BigInt a, BigInt b ) {
 }
 
 BigInt operator % ( BigInt a, BigInt b ) {
-    cout << "% " << a << " " << b << endl;
+#ifdef __DEBUG__
+    cerr << "% " << a << " " << b << endl;
+#endif
     if ( a < b )
         return a;
 
@@ -240,7 +250,9 @@ BigInt operator % ( BigInt a, BigInt b ) {
 }
 
 BigInt power ( const BigInt &a, const BigInt &b ) {
-    cout << "pow " << a << " " << b << endl;
+#ifdef __DEBUG__
+    cerr << "^ " << a << " " << b << endl;
+#endif
     if ( b.data.size() == 0 ) {
         return 1;
     }
