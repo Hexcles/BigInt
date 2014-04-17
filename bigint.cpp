@@ -1,4 +1,6 @@
 #include "bigint.h"
+#include <string>
+#include <stack>
 
 using namespace std;
 
@@ -62,6 +64,35 @@ ostream &operator << ( ostream &os, const BigInt &num ) {
         os << *i;
     }
     return os;
+}
+
+istream &operator >> ( istream &is, BigInt &num ) {
+    num = 0;
+
+    string s;
+    stack< int > st;
+
+    is >> s;
+
+    int t = 0;
+    for ( string::iterator i = s.begin(); i != s.end(); i++ ) {
+        if ( ( i != s.begin() ) && ( s.end() - i ) % COMPRESSED_BITS == 0 ) {
+            st.push( t );
+            t = 0;
+        }
+        t *= 10;
+        t += *i - '0';
+    }
+    if ( t ) {
+        st.push( t );
+    }
+
+    while ( st.size() ) {
+        num.data.push_back( st.top() );
+        st.pop();
+    }
+
+    return is;
 }
 
 BigInt operator + ( const BigInt &a, const BigInt &b ) {

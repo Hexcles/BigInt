@@ -21,6 +21,7 @@ class BigInt {
         BigInt ( const BigInt &x );
 
         friend std::ostream &operator << ( std::ostream &os, const BigInt &num );
+        friend std::istream &operator >> ( std::istream &is, BigInt &num );
         friend BigInt operator + ( const BigInt &a, const BigInt &b );
         friend BigInt operator - ( const BigInt &a, const BigInt &b );
         friend BigInt operator * ( const BigInt &a, const BigInt &b );
