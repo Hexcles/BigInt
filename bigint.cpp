@@ -20,7 +20,7 @@ BigInt::BigInt ( const BigInt &x ) : data( x.data ) {
 void BigInt::mul10 ( ) {
     if ( !data.size() )
         return;
-    vector< int >::reverse_iterator i;
+    vector< single_int >::reverse_iterator i;
     *( data.end() - 1 ) *= 10;
     for ( i = data.rbegin() + 1; i != data.rend(); i++ ) {
         *i *= 10;
@@ -38,7 +38,7 @@ void BigInt::mul10 ( ) {
 void BigInt::div10 ( ) {
     if ( !data.size() )
         return;
-    vector< int >::reverse_iterator i;
+    vector< single_int >::reverse_iterator i;
     for ( i = data.rbegin(); i + 1 != data.rend(); i++ ) {
         *( i + 1 ) += ( *i % 10 ) * COMPRESSED_NUM;
         *i /= 10;
@@ -54,8 +54,8 @@ ostream &operator << ( ostream &os, const BigInt &num ) {
         os << 0;
         return os;
     }
-    vector< int >::const_reverse_iterator i = num.data.rbegin();
-    if ( *i ) 
+    vector< single_int >::const_reverse_iterator i = num.data.rbegin();
+    if ( *i )
         os << *i;
     i++;
     for ( ; i != num.data.rend(); i++ ) {
@@ -70,11 +70,11 @@ istream &operator >> ( istream &is, BigInt &num ) {
     num = 0;
 
     string s;
-    stack< int > st;
+    stack< single_int > st;
 
     is >> s;
 
-    int t = 0;
+    single_int t = 0;
     for ( string::iterator i = s.begin(); i != s.end(); i++ ) {
         if ( ( i != s.begin() ) && ( s.end() - i ) % COMPRESSED_BITS == 0 ) {
             st.push( t );
@@ -101,18 +101,18 @@ BigInt operator + ( const BigInt &a, const BigInt &b ) {
 #endif
     BigInt c;
 
-    vector< int >::const_iterator 
+    vector< single_int >::const_iterator
         ai = a.data.begin(),
         bi = b.data.begin();
 
     while ( ai != a.data.end() || bi != b.data.end() ) {
-        c.data.push_back( 
+        c.data.push_back(
                 ( ai != a.data.end() ? *( ai++ ) : 0 )
-              + ( bi != b.data.end() ? *( bi++ ) : 0 ) 
+              + ( bi != b.data.end() ? *( bi++ ) : 0 )
             );
     }
 
-    vector< int >::iterator i;
+    vector< single_int >::iterator i;
     for ( i = c.data.begin();
             i+1 != c.data.end(); i++ ) {
         ( *( i + 1 ) ) += ( *i ) / COMPRESSED_NUM;
@@ -137,7 +137,7 @@ BigInt operator - ( const BigInt &a, const BigInt &b ) {
         throw 1;
     }
 
-    for ( vector< int >::const_iterator 
+    for ( vector< single_int >::const_iterator
         ai = a.data.begin(),
         bi = b.data.begin();
 
@@ -146,7 +146,7 @@ BigInt operator - ( const BigInt &a, const BigInt &b ) {
         c.data.push_back( *ai++ - ( bi != b.data.end() ? *bi++ : 0 ) );
     }
 
-    for ( vector< int >::iterator i = c.data.begin();
+    for ( vector< single_int >::iterator i = c.data.begin();
             i + 1 != c.data.end(); i++ ) {
         ( *i ) += COMPRESSED_NUM;
         ( *( i + 1 ) ) --;
@@ -154,7 +154,7 @@ BigInt operator - ( const BigInt &a, const BigInt &b ) {
         ( *i ) %= COMPRESSED_NUM;
     }
 
-    vector< int >::iterator i = c.data.end() - 1;
+    vector< single_int >::iterator i = c.data.end() - 1;
 
     while ( c.data.size() && *i == 0 ) {
         i = c.data.erase( i ) - 1;
@@ -168,13 +168,13 @@ BigInt operator * ( const BigInt &a, const BigInt &b ) {
     cerr << "* " << a << " " << b << endl;
 #endif
     BigInt c;
-    c.data = vector< int >( a.data.size() * b.data.size() + 1, 0 );
+    c.data = vector< single_int >( a.data.size() * b.data.size() + 1, 0 );
 
-    for ( vector< int >::const_iterator ai = a.data.begin(); 
+    for ( vector< single_int >::const_iterator ai = a.data.begin();
             ai != a.data.end(); ai++ ) {
-        vector< int >::iterator 
+        vector< single_int >::iterator
             ci = c.data.begin() + ( ai - a.data.begin() );
-        for ( vector< int >::const_iterator bi = b.data.begin();
+        for ( vector< single_int >::const_iterator bi = b.data.begin();
                 bi != b.data.end(); bi++, ci++ ) {
             *ci += ( ( *ai ) * ( *bi ) );
             *( ci + 1 ) += ( *ci ) / COMPRESSED_NUM;
@@ -182,7 +182,7 @@ BigInt operator * ( const BigInt &a, const BigInt &b ) {
         }
     }
 
-    vector< int >::iterator i = c.data.end() - 1;
+    vector< single_int >::iterator i = c.data.end() - 1;
 
     while ( c.data.size() && *i == 0 ) {
         i = c.data.erase( i ) - 1;
@@ -264,7 +264,7 @@ BigInt power ( const BigInt &a, const BigInt &b ) {
     BigInt t = power( a, b / 2 );
     if ( b.data[0] % 2 )
         return t * t * a;
-    else 
+    else
         return t * t;
 }
 
@@ -272,7 +272,7 @@ int cmp ( const BigInt &a, const BigInt &b ) {
     if ( a.data.size() != b.data.size() )
         return a.data.size() - b.data.size();
 
-    for ( vector< int >::const_reverse_iterator
+    for ( vector< single_int >::const_reverse_iterator
         ai = a.data.rbegin(),
         bi = b.data.rbegin();
 
@@ -281,7 +281,7 @@ int cmp ( const BigInt &a, const BigInt &b ) {
         ai++, bi++
         ) {
 
-        if ( *ai != *bi ) 
+        if ( *ai != *bi )
             return *ai - *bi;
     }
     return 0;
