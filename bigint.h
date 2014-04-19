@@ -34,6 +34,7 @@ class BigInt {
         friend BigInt operator % ( BigInt a, BigInt b );
 
         friend BigInt power ( const BigInt &a, const BigInt &b );
+        friend BigInt power ( const BigInt &a, const BigInt &b, const BigInt &modulo );
 
         friend int cmp ( const BigInt &a, const BigInt &b );
         friend bool operator < ( const BigInt &a, const BigInt &b );

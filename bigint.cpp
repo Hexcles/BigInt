@@ -268,6 +268,25 @@ BigInt power ( const BigInt &a, const BigInt &b ) {
         return t * t;
 }
 
+BigInt power ( const BigInt &a, const BigInt &b, const BigInt &modulo ) {
+#ifdef __DEBUG__
+    cerr << "^ " << a << " " << b << " (mod " << modulo << ")" << endl;
+#endif
+    if ( b.data.size() == 0 ) {
+        return 1;
+    }
+
+    if ( b == 1 ) {
+        return a;
+    }
+
+    BigInt t = power( a, b / 2, modulo );
+    if ( b.data[0] % 2 )
+        return ((t * t) % modulo) * a % modulo;
+    else
+        return t * t % modulo;
+}
+
 int cmp ( const BigInt &a, const BigInt &b ) {
     if ( a.data.size() != b.data.size() )
         return a.data.size() - b.data.size();
