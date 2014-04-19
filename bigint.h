@@ -1,13 +1,10 @@
 #ifndef _BIGINT_H_
 #define _BIGINT_H_
 
-// int32_t is in cinttypes, which requires C++11
-#include <cinttypes>
+#include <stdint.h>
 #include <vector>
 #include <iterator>
 #include <iostream>
-
-using namespace std;
 
 // Put four decimal digits in one int
 #define COMPRESSED_NUM  ( 10000 )
@@ -18,7 +15,7 @@ typedef int32_t single_int;
 
 class BigInt {
     private:
-        vector< single_int > data;
+        std::vector< single_int > data;
 
         void mul10 ( );
         void div10 ( );
@@ -28,8 +25,8 @@ class BigInt {
         BigInt ( unsigned long x );
         BigInt ( const BigInt &x );
 
-        friend ostream &operator << ( ostream &os, const BigInt &num );
-        friend istream &operator >> ( istream &is, BigInt &num );
+        friend std::ostream &operator << ( std::ostream &os, const BigInt &num );
+        friend std::istream &operator >> ( std::istream &is, BigInt &num );
         friend BigInt operator + ( const BigInt &a, const BigInt &b );
         friend BigInt operator - ( const BigInt &a, const BigInt &b );
         friend BigInt operator * ( const BigInt &a, const BigInt &b );
