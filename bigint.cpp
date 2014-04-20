@@ -49,6 +49,11 @@ void BigInt::div10 ( ) {
         data.erase( data.end() - 1 );
 }
 
+unsigned char BigInt::to_uchar( ) {
+    if ( data.size() == 0 ) return 0;
+    else return data[0] % 256;
+}
+
 ostream &operator << ( ostream &os, const BigInt &num ) {
     if ( num.data.size() == 0 ) {
         os << 0;
@@ -112,6 +117,9 @@ BigInt operator + ( const BigInt &a, const BigInt &b ) {
             );
     }
 
+    if ( !c.data.size() )
+        return c;
+
     vector< single_int >::iterator i;
     for ( i = c.data.begin();
             i+1 != c.data.end(); i++ ) {
@@ -145,6 +153,9 @@ BigInt operator - ( const BigInt &a, const BigInt &b ) {
         ) {
         c.data.push_back( *ai++ - ( bi != b.data.end() ? *bi++ : 0 ) );
     }
+
+    if ( !c.data.size() )
+        return c;
 
     for ( vector< single_int >::iterator i = c.data.begin();
             i + 1 != c.data.end(); i++ ) {

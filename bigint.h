@@ -25,6 +25,8 @@ class BigInt {
         BigInt ( unsigned long x );
         BigInt ( const BigInt &x );
 
+        unsigned char to_uchar();
+
         friend std::ostream &operator << ( std::ostream &os, const BigInt &num );
         friend std::istream &operator >> ( std::istream &is, BigInt &num );
         friend BigInt operator + ( const BigInt &a, const BigInt &b );
